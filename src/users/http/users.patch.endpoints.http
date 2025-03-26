@@ -1,0 +1,16 @@
+PATCH http://localhost:3000/users
+Content-Type: application/json
+# User-Agent: httpyac
+
+{
+    "email": "jacob.naraught@gmail.com",
+    "password": "Password@321"
+}
+PATCH http://localhost:3000/users/32
+Content-Type: application/json
+# User-Agent: httpyac
+
+{
+    "email": "jacob.naraught@gmail.com",
+    "password": "Password@321"
+}

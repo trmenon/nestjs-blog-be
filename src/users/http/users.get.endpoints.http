@@ -1,0 +1,7 @@
+GET http://localhost:3000/users
+GET http://localhost:3000/users/hohfwhfw
+GET http://localhost:3000/users/33
+GET http://localhost:3000/users
+?search=John
+&page=1
+&limit=30
