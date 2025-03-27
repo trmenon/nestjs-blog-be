@@ -18,4 +18,6 @@ export class PostsServices{
     public findById(id): string {
         return `Getting post by ${id}`;
     }
+
+    public createPost
 }

@@ -10,21 +10,34 @@ import {
   Patch,
   Post,
   Query,
-  Req,
-  ValidationPipe,
 } from '@nestjs/common';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { GetUsersParamDto } from './dtos/get-users-param.dto';
 import { PatchUserDto } from './dtos/patch-user.dto';
 import { UsersService } from './providers/users.service';
 import { ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
-// import
 
+/**
+ * Users Controller
+ * Handles routing of users end points
+ */
 @Controller('users')
 @ApiTags('users')
 export class UsersController {
+  /**
+   * @constructor
+   * @param userService 
+   */
   constructor(private readonly userService: UsersService) {}
-  // @Get('/:id?/') => Decorator syntax if using NestJs V10 that leverages Express 4
+
+  /**
+   * Fetches list of user
+   * Accepts search query and pagination options
+   * @param search 
+   * @param page 
+   * @param limit 
+   * @returns 
+   */
   @Get()
   @ApiOperation({
     summary: 'fetches a list of users as per pagination options requested',
@@ -62,6 +75,11 @@ export class UsersController {
     return this.userService.findAll(search, page, limit);
   }
 
+  /**
+   * fetches user details corresponding to id of user
+   * @param getUserParamDto 
+   * @returns 
+   */
   @Get('/:id')
   @ApiOperation({
     summary: 'fetches user details corresponding to id of user',
@@ -74,28 +92,51 @@ export class UsersController {
     return this.userService.findOneById(getUserParamDto.id);
   }
 
+  /**
+   * Creates a new user
+   * @param createuserDto 
+   * @param headers 
+   * @param ip 
+   * @returns 
+   */
   @Post()
+  @ApiOperation({
+    summary: 'Creates a new user',
+  })
+  @ApiResponse({
+    status: 201,
+    description: 'users created successfully',
+  })
   public createUser(
     @Body() createuserDto: CreateUserDto,
     @Headers() headers: any,
     @Ip() ip: any,
   ) {
     console.log(headers, ip);
-    let metadata = 'No user data received';
-    if (createuserDto) {
-      metadata = JSON.stringify(createuserDto);
-    }
-    return `Post request to create a users=> ${metadata}`;
+    return this.userService.createUser(createuserDto);
   }
 
+  /**
+   * Updates details of user with specific id
+   * @param getUserParamDto 
+   * @param patchUserDto 
+   * @returns 
+   */
   @Patch('/:id/')
+  @ApiOperation({
+    summary: 'Updates details of user',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'users details updated',
+  })
   public patchUser(
     @Param() getUserParamDto: GetUsersParamDto,
     @Body() patchUserDto: PatchUserDto,
   ) {
-    if (getUserParamDto?.id) {
-      return `You have requested to patch user with id: ${getUserParamDto?.id} with data ${JSON.stringify(patchUserDto)}`;
-    }
-    return 'No id requested for patch';
+    return this.userService.updateById(
+      getUserParamDto?.id,
+      patchUserDto
+    );
   }
 }
