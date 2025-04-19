@@ -3,8 +3,7 @@ Content-Type: application/json
 {    
     "title": "Nest JS starter",
     "postType": "post",
-    "postStatus": "draft",
     "content": "Test content",
     "img": "http://www.imgurl.example.in",
-    "tags": ["nestjs", "typescript"]
+    "tags": [5]
 }

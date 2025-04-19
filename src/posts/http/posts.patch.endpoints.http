@@ -1,6 +1,6 @@
 PATCH http://localhost:3000/posts
 Content-Type: application/json
 {
-    "id": 23,
-    "postType": "event"
+    "id": 43,
+    "postType": "post"
 }

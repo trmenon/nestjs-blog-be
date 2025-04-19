@@ -8,6 +8,9 @@ import { AuthModule } from './auth/auth.module';
 
 // TypeORM
 import {TypeOrmModule} from '@nestjs/typeorm';
+import { User } from './users/user.entity';
+import { Post } from './posts/post.entity';
+import { TagsModule } from './tags/tags.module';
 
 
 @Module({
@@ -20,7 +23,11 @@ import {TypeOrmModule} from '@nestjs/typeorm';
       inject: [],
       useFactory: ()=> ({
         type: 'postgres', // Type of Database connecting to
-        entities: [], // Entities based on which ORM will create tables in the database
+        autoLoadEntities: true,
+        // entities: [
+        //   User,
+        //   Post
+        // ], // Entities based on which ORM will create tables in the database
         /**
          * synchronize must be used only in development mode
          * Creates DB schemas in your application
@@ -41,7 +48,8 @@ import {TypeOrmModule} from '@nestjs/typeorm';
         host: 'localhost',
         database: 'nestjs-blog'
       })      
-    })
+    }),
+    TagsModule
 ],
   controllers: [AppController],
   providers: [AppService],

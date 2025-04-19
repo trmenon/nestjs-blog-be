@@ -5,6 +5,9 @@ import { users_data } from './data';
 import { AuthService } from 'src/auth/providers/auth.service';
 import { PatchUserDto } from '../dtos/patch-user.dto';
 import { CreateUserDto } from '../dtos/create-user.dto';
+import { Repository } from 'typeorm';
+import { User } from '../user.entity';
+import { InjectRepository } from '@nestjs/typeorm';
 
 /**
  * Class to connect to users data
@@ -18,6 +21,8 @@ export class UsersService {
   constructor(
     @Inject(forwardRef(() => AuthService))
     private readonly authService: AuthService,
+    @InjectRepository(User)
+    private usersRepository: Repository<User>
   ) {}
 
   /**
@@ -75,11 +80,19 @@ export class UsersService {
    * @param payload 
    * @returns 
    */
-  public createUser(payload: CreateUserDto){
+  public async createUser(createUserDto: CreateUserDto){
     if(this.authService.isAuthenticated()){
+      // Checking if user exist
+      const existingUser = await this.usersRepository?.findOne({
+        where: {email: createUserDto.email}
+      });
+      // Handle Exceptions
+      // Create new user
+      let newUser = this.usersRepository?.create(createUserDto);
+      newUser = await this.usersRepository.save(newUser);
       return {
         status: 201,
-        user: payload,
+        user: newUser,
         message: "New user added"
       }
     }

@@ -17,7 +17,7 @@ export class CreateUserDto {
   @IsString()
   @IsNotEmpty()
   @MinLength(3)
-  @MaxLength(100)
+  @MaxLength(96)
   first_name: string;
 
   @ApiProperty({
@@ -27,7 +27,7 @@ export class CreateUserDto {
   @IsString()
   @IsOptional()
   @MinLength(3)
-  @MaxLength(100)
+  @MaxLength(96)
   last_name?: string;
 
   @ApiProperty({
@@ -36,6 +36,7 @@ export class CreateUserDto {
   })
   @IsEmail()
   @IsNotEmpty()
+  @MaxLength(96)
   email: string;
 
   @ApiProperty({
@@ -45,6 +46,7 @@ export class CreateUserDto {
   @IsString()
   @IsNotEmpty()
   @MinLength(8)
+  @MaxLength(96)
   @Matches(/^[A-Za-z](?=.*[!@#$%^&*(),.?":{}|<>])(?=.*\d)(?=.*[A-Za-z]).*$/, {
     message:
       'Password must start with an alphabet and contain atleast 1 special character and 1 numerical value',

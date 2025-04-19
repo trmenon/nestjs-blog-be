@@ -41,7 +41,9 @@ export class PostsController {
     description: "You get a 201 responseif post is created"
   })
   @Post()
-  public createPost(@Body() createPostDto: CreatePostDto) {}
+  public createPost(@Body() createPostDto: CreatePostDto) {
+    return this.postService?.createPost(createPostDto);
+  }
 
   @ApiOperation({
     summary: 'Updates post as per id of post'
@@ -51,5 +53,7 @@ export class PostsController {
     description: "You get a 201 responseif post is updated"
   })
   @Patch()
-  public updatePost(@Body() patchBodyDto: PatchPostDto){}
+  public updatePost(@Body() patchBodyDto: PatchPostDto){
+    return this.postService?.updatePost(patchBodyDto);
+  }
 }
